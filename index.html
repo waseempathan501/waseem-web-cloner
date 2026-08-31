@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Waseem Web Cloner — Web Copier By Waseem</title>
+<meta name="description" content="Waseem Web Cloner: enter any website URL, view its full HTML, CSS and JS source code instantly, and download everything as a ZIP file." />
+<meta name="google-site-verification" content="XLHoOt-4xdQ9mkXThjtv9vn8S5X94ciHDKpk4h9x8wk" />
+<link rel="canonical" href="https://waseem-web-cloner.vercel.app/" />
+<meta property="og:title" content="Waseem Web Cloner — Web Copier By Waseem" />
+<meta property="og:description" content="Enter any website URL, view its full HTML, CSS and JS source code instantly, and download everything as a ZIP file." />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://waseem-web-cloner.vercel.app/" />
+<meta property="og:image" content="https://raw.githubusercontent.com/waseempathan501/Photo-link-/refs/heads/main/Screenshot_20260831-211241%7E2.jpg" />
+<link rel="icon" href="https://raw.githubusercontent.com/waseempathan501/Photo-link-/refs/heads/main/Screenshot_20260831-211241%7E2.jpg" type="image/jpeg" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700;800&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --bg: #050b18;
+    --bg-deep: #02060f;
+    --panel: rgba(13, 23, 45, 0.62);
+    --panel-border: rgba(88, 166, 255, 0.25);
+    --accent: #58a6ff;
+    --accent-bright: #8ecbff;
+    --text: #dfe9fb;
+    --muted: #7488a8;
+    --mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+  }
+
+  *{ box-sizing: border-box; }
+
+  html{
+    background: var(--bg);
+  }
+
+  body{
+    margin: 0;
+    padding: 0;
+    min-height: 100%;
+    background: transparent;
+    color: var(--text);
+    font-family: var(--mono);
+    position: relative;
+    z-index: 0;
+  }
+
+  #particle-bg{
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    background: radial-gradient(ellipse at 50% 0%, #071229 0%, var(--bg-deep) 70%);
+  }
+
+  .wrap{
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 56px 20px 64px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+  }
+
+  header{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .logo{
+    width: 116px;
+    height: 116px;
+    border-radius: 50%;
+    object-fit: cover;
+    box-shadow:
+      0 0 0 1px rgba(88,166,255,0.35),
+      0 0 26px rgba(88,166,255,0.35),
+      0 0 60px rgba(88,166,255,0.18);
+  }
+
+  h1{
+    margin: 22px 0 0;
+    font-size: clamp(1.7rem, 5vw, 2.75rem);
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--accent-bright);
+    text-shadow:
+      0 0 8px rgba(142, 203, 255, 0.55),
+      0 0 26px rgba(88, 166, 255, 0.35);
+  }
+
+  .subtitle{
+    margin: 12px 0 0;
+    max-width: 480px;
+    font-size: 0.92rem;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+
+  .whatsapp-link{
+    margin-top: 20px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 9px 18px;
+    border-radius: 8px;
+    border: 1px solid var(--panel-border);
+    background: rgba(88,166,255,0.06);
+    color: var(--accent-bright);
+    text-decoration: none;
+    font-size: 0.82rem;
+    letter-spacing: 0.03em;
+    transition: background 0.2s ease, transform 0.15s ease;
+  }
+  .whatsapp-link:hover{ background: rgba(88,166,255,0.14); transform: translateY(-1px); }
+
+  form{
+    margin-top: 44px;
+    width: 100%;
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    padding: 16px;
+    border-radius: 12px;
+    border: 1px solid var(--panel-border);
+    background: var(--panel);
+    backdrop-filter: blur(6px);
+  }
+
+  input[type="text"]{
+    flex: 1;
+    min-width: 200px;
+    background: rgba(2, 8, 20, 0.6);
+    border: 1px solid var(--panel-border);
+    border-radius: 8px;
+    padding: 13px 14px;
+    color: var(--text);
+    font-family: var(--mono);
+    font-size: 0.95rem;
+    outline: none;
+  }
+  input[type="text"]::placeholder{ color: var(--muted); }
+  input[type="text"]:focus{ border-color: var(--accent); box-shadow: 0 0 0 3px rgba(88,166,255,0.15); }
+
+  button{
+    font-family: var(--mono);
+    cursor: pointer;
+    border: none;
+    border-radius: 8px;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    transition: transform 0.15s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+  }
+
+  .btn-primary{
+    min-width: 150px;
+    padding: 13px 20px;
+    background: linear-gradient(135deg, var(--accent), #2f6fd6);
+    color: #04101f;
+    box-shadow: 0 0 20px rgba(88,166,255,0.35);
+  }
+  .btn-primary:hover{ transform: translateY(-1px); box-shadow: 0 0 28px rgba(88,166,255,0.5); }
+  .btn-primary:disabled{ opacity: 0.55; cursor: not-allowed; transform: none; }
+
+  .status{
+    margin-top: 18px;
+    font-size: 0.85rem;
+    color: var(--muted);
+    min-height: 20px;
+    text-align: center;
+  }
+  .status.error{ color: #ff8a8a; }
+  .status.success{ color: var(--accent-bright); }
+
+  .results{
+    display: none;
+    width: 100%;
+    margin-top: 28px;
+  }
+  .results.visible{ display: block; }
+
+  .results-toolbar{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+
+  .results-meta{
+    font-size: 0.78rem;
+    color: var(--muted);
+  }
+
+  .action-row{
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .btn-secondary{
+    padding: 9px 16px;
+    font-size: 0.8rem;
+    background: rgba(88,166,255,0.1);
+    border: 1px solid var(--panel-border);
+    color: var(--accent-bright);
+  }
+  .btn-secondary:hover{ background: rgba(88,166,255,0.2); }
+
+  .code-box{
+    width: 100%;
+    max-height: 420px;
+    overflow: auto;
+    background: rgba(2, 8, 20, 0.75);
+    border: 1px solid var(--panel-border);
+    border-radius: 10px;
+    padding: 16px;
+    font-size: 0.78rem;
+    line-height: 1.5;
+    color: #b9d4f5;
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+
+  footer{
+    margin-top: auto;
+    padding-top: 48px;
+    font-size: 0.72rem;
+    color: var(--muted);
+    text-align: center;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    #particle-bg{ display: none; }
+  }
+</style>
+</head>
+<body>
+
+<canvas id="particle-bg"></canvas>
+
+<div class="wrap">
+  <header>
+    <img class="logo" src="https://raw.githubusercontent.com/waseempathan501/Photo-link-/refs/heads/main/Screenshot_20260831-211241%7E2.jpg" alt="Web Copier By Waseem logo" />
+    <h1>Web Copier By Waseem</h1>
+    <p class="subtitle">Enter a website URL, grab the full source code, then download it as a ZIP.</p>
+    <a class="whatsapp-link" href="https://whatsapp.com/channel/0029VbD4m3ZFCCoWbOzY3x2S" target="_blank" rel="noreferrer">WhatsApp Channel</a>
+  </header>
+
+  <form id="clone-form">
+    <input type="text" id="url-input" placeholder="Enter URL ( example.com )" autocomplete="off" spellcheck="false" required />
+    <button type="submit" class="btn-primary" id="submit-btn">Search</button>
+  </form>
+
+  <p class="status" id="status"></p>
+
+  <div class="results" id="results">
+    <div class="results-toolbar">
+      <span class="results-meta" id="results-meta"></span>
+      <div class="action-row">
+        <button type="button" class="btn-secondary" id="copy-btn">Copy Source</button>
+        <button type="button" class="btn-secondary" id="zip-btn">Download ZIP</button>
+      </div>
+    </div>
+    <pre class="code-box" id="code-box"></pre>
+  </div>
+
+  <footer>2026 Powered By Waseem Hacker</footer>
+</div>
+
+<script>
+  // ---------- Particle Network Background Animation ----------
+  (function(){
+    const canvas = document.getElementById('particle-bg');
+    const ctx = canvas.getContext('2d');
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduceMotion) return;
+
+    let width, height, particles;
+    const LINK_DISTANCE = 150;
+    const PARTICLE_COLOR = '78, 168, 255';
+
+    function density(){
+      return Math.min(110, Math.floor((width * height) / 14000));
+    }
+
+    function resize(){
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+      particles = Array.from({ length: density() }, () => ({
+        x: Math.random() * width,
+        y: Math.random() * height,
+        vx: (Math.random() - 0.5) * 0.35,
+        vy: (Math.random() - 0.5) * 0.35,
+        r: Math.random() * 1.6 + 0.8
+      }));
+    }
+
+    function step(){
+      ctx.clearRect(0, 0, width, height);
+
+      for (const p of particles){
+        p.x += p.vx;
+        p.y += p.vy;
+        if (p.x < 0 || p.x > width) p.vx *= -1;
+        if (p.y < 0 || p.y > height) p.vy *= -1;
+      }
+
+      for (let i = 0; i < particles.length; i++){
+        for (let j = i + 1; j < particles.length; j++){
+          const a = particles[i], b = particles[j];
+          const dx = a.x - b.x, dy = a.y - b.y;
+          const dist = Math.sqrt(dx*dx + dy*dy);
+          if (dist < LINK_DISTANCE){
+            const alpha = (1 - dist / LINK_DISTANCE) * 0.5;
+            ctx.strokeStyle = `rgba(${PARTICLE_COLOR}, ${alpha})`;
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.moveTo(a.x, a.y);
+            ctx.lineTo(b.x, b.y);
+            ctx.stroke();
+          }
+        }
+      }
+
+      for (const p of particles){
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(${PARTICLE_COLOR}, 0.9)`;
+        ctx.shadowColor = `rgba(${PARTICLE_COLOR}, 0.9)`;
+        ctx.shadowBlur = 6;
+        ctx.fill();
+        ctx.shadowBlur = 0;
+      }
+
+      requestAnimationFrame(step);
+    }
+
+    window.addEventListener('resize', resize);
+    resize();
+    requestAnimationFrame(step);
+  })();
+
+  // ---------- Web Copier Logic ----------
+  const form = document.getElementById('clone-form');
+  const urlInput = document.getElementById('url-input');
+  const submitBtn = document.getElementById('submit-btn');
+  const statusEl = document.getElementById('status');
+  const resultsEl = document.getElementById('results');
+  const resultsMeta = document.getElementById('results-meta');
+  const codeBox = document.getElementById('code-box');
+  const copyBtn = document.getElementById('copy-btn');
+  const zipBtn = document.getElementById('zip-btn');
+
+  let lastZipBase64 = null;
+  let lastHostname = 'site';
+
+  function setStatus(message, type){
+    statusEl.textContent = message;
+    statusEl.className = 'status' + (type ? ' ' + type : '');
+  }
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const url = urlInput.value.trim();
+    if (!url) return;
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Copying...';
+    setStatus('Fetching source from the website, please wait...');
+    resultsEl.classList.remove('visible');
+
+    try {
+      const res = await fetch('/api/clone', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ url })
+      });
+
+      const data = await res.json();
+
+      if (!res.ok){
+        setStatus(data.error || 'Something went wrong. Try a different URL.', 'error');
+        return;
+      }
+
+      codeBox.textContent = data.html;
+      resultsMeta.textContent = `${data.sourceUrl} — ${data.cssCount} CSS file(s), ${data.jsCount} JS file(s)`;
+      lastZipBase64 = data.zipBase64;
+      try { lastHostname = new URL(data.sourceUrl).hostname.replace(/\./g, '-'); } catch { lastHostname = 'site'; }
+
+      resultsEl.classList.add('visible');
+      setStatus('Done. Copy the source below or download the full ZIP.', 'success');
+    } catch (err){
+      setStatus('Network error — could not reach the server.', 'error');
+    } finally {
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Search';
+    }
+  });
+
+  copyBtn.addEventListener('click', async () => {
+    try {
+      await navigator.clipboard.writeText(codeBox.textContent);
+      copyBtn.textContent = 'Copied!';
+      setTimeout(() => { copyBtn.textContent = 'Copy Source'; }, 1500);
+    } catch {
+      setStatus('Could not copy automatically — select the text manually.', 'error');
+    }
+  });
+
+  zipBtn.addEventListener('click', () => {
+    if (!lastZipBase64) return;
+    const byteChars = atob(lastZipBase64);
+    const byteNumbers = new Array(byteChars.length);
+    for (let i = 0; i < byteChars.length; i++) byteNumbers[i] = byteChars.charCodeAt(i);
+    const byteArray = new Uint8Array(byteNumbers);
+    const blob = new Blob([byteArray], { type: 'application/zip' });
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = `${lastHostname}-clone.zip`;
+    link.click();
+    URL.revokeObjectURL(link.href);
+  });
+</script>
+
+</body>
+</html>
