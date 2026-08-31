@@ -1,0 +1,11 @@
+{
+  "name": "web-copier-by-waseem",
+  "version": "1.0.0",
+  "description": "Web Copier By Waseem - clone any website's HTML/CSS/JS source and download as ZIP",
+  "main": "api/clone.js",
+  "dependencies": {
+    "axios": "^1.7.7",
+    "cheerio": "^1.0.0",
+    "jszip": "^3.10.1"
+  }
+}

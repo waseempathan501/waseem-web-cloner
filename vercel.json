@@ -1,0 +1,7 @@
+{
+  "functions": {
+    "api/clone.js": {
+      "maxDuration": 10
+    }
+  }
+}
